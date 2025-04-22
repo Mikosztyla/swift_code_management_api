@@ -57,9 +57,8 @@ public class SwiftCodeControllerFunctionalTest {
     private static final String SWIFT_CODE_DELETED_MSG = "SWIFT code deleted successfully";
     private static final String INVALID_SWIFT_CODE_FORMAT_MSG = "Invalid swiftCode format. Expected 11 uppercase letters/numbers";
     private static final String INVALID_ISO2_CODE_FORMAT_MSG = "Invalid country ISO2 code. Expected 2 uppercase letters";
-    private static final String SWIFT_CODE_NOT_FOUND_MSG = "No records for provided swiftCode";
+    private static final String SWIFT_CODE_NOT_FOUND_MSG = "No records for provided swiftCode: ";
     private static final String COUNTRY_NOT_FOUND_MSG = "No country found for code: ";
-    private static final String SWIFT_CODE_NOT_FOUND = "No SWIFT code found with the provided code: ";
     private static final String SWIFT_CODE_MISSING_MSG = "SwiftCode must not be null or empty";
 
     @Autowired
@@ -127,7 +126,7 @@ public class SwiftCodeControllerFunctionalTest {
         //when //then
         mockMvc.perform(get(SWIFT_CODE_URL + "/" + INVALID_SWIFT_CODE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$").value(INVALID_SWIFT_CODE_FORMAT_MSG));
+                .andExpect(jsonPath("$.message").value(INVALID_SWIFT_CODE_FORMAT_MSG));
     }
 
     @Test
@@ -135,7 +134,7 @@ public class SwiftCodeControllerFunctionalTest {
         //when //then
         mockMvc.perform(get(SWIFT_CODE_URL + "/" + NONEXISTENT_SWIFT_CODE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$").value(SWIFT_CODE_NOT_FOUND_MSG));
+                .andExpect(jsonPath("$.message").value(SWIFT_CODE_NOT_FOUND_MSG + NONEXISTENT_SWIFT_CODE));
     }
 
     @Test
@@ -143,7 +142,7 @@ public class SwiftCodeControllerFunctionalTest {
         //when //then
         mockMvc.perform(get(SWIFT_CODE_URL + "/" + EMPTY_SWIFT_CODE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$").value(SWIFT_CODE_MISSING_MSG));
+                .andExpect(jsonPath("$.message").value(SWIFT_CODE_MISSING_MSG));
     }
 
     @Test
@@ -171,7 +170,7 @@ public class SwiftCodeControllerFunctionalTest {
         //when //then
         mockMvc.perform(get(COUNTRY_SWIFT_CODE_URL + COUNTRY_ISO_XY))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$").value(COUNTRY_NOT_FOUND_MSG + COUNTRY_ISO_XY));
+                .andExpect(jsonPath("$.message").value(COUNTRY_NOT_FOUND_MSG + COUNTRY_ISO_XY));
     }
 
     @Test
@@ -179,7 +178,7 @@ public class SwiftCodeControllerFunctionalTest {
         //when //then
         mockMvc.perform(get(COUNTRY_SWIFT_CODE_URL + INVALID_COUNTRY_ISO))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$").value(INVALID_ISO2_CODE_FORMAT_MSG));
+                .andExpect(jsonPath("$.message").value(INVALID_ISO2_CODE_FORMAT_MSG));
     }
 
     @Test
@@ -257,7 +256,7 @@ public class SwiftCodeControllerFunctionalTest {
         //when //then
         mockMvc.perform(delete(SWIFT_CODE_URL + "/" + NONEXISTENT_SWIFT_CODE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(SWIFT_CODE_NOT_FOUND + NONEXISTENT_SWIFT_CODE));
+                .andExpect(jsonPath("$.message").value(SWIFT_CODE_NOT_FOUND_MSG + NONEXISTENT_SWIFT_CODE));
     }
 
     @Test

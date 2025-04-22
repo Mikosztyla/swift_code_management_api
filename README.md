@@ -1,6 +1,32 @@
 # 💱 Swift Code Management API
 
-A Spring Boot application for managing SWIFT codes by country. It provides RESTful endpoints for querying, creating, and deleting SWIFT codes, as well as built-in API documentation and a persistent H2 database console.
+A Spring Boot application for managing SWIFT codes by country. It provides RESTful endpoints for querying, creating, and deleting SWIFT codes, as well as built-in API documentation and a persistent local H2 database.
+
+---
+
+## 📌 Project Assumptions
+
+This project is developed under the following assumptions and design choices:
+
+- **Excel Data Integrity:**  
+  It is assumed that all data provided in the Excel file (`data.xlsx`) is **correct and valid** — no additional validation or sanitization is performed on input rows during import.
+
+- **Irrelevant Columns Ignored:**  
+  Columns such as `code type`, `town name`, and `timezone` are **intentionally ignored**, as they are not required for this application’s functionality.
+
+- **Country Dependency for SWIFT Codes:**  
+  When adding a new SWIFT code via API, it **must be linked to an existing country** in the database.  
+  If the provided country does not exist, the API responds with an appropriate error message.
+
+- **SWIFT Code Validation Rules:**  
+  A valid SWIFT code must:
+    - have a length of exactly **11 characters**
+    - consist only of **uppercase letters and digits**
+
+- **ISO2 Code Validation Rules:**  
+  A valid ISO2 code must:
+    - have a length of exactly **2 characters**
+    - consist only of **uppercase letters**
 
 ---
 
@@ -15,8 +41,6 @@ A Spring Boot application for managing SWIFT codes by country. It provides RESTf
 ---
 
 ## 🚀 Running the Application
-
-
 
 > **IMPORTANT!!!:** To use Lombok, make sure to **enable annotation processing** in your IDE:
 > - IntelliJ IDEA:  
@@ -150,9 +174,9 @@ src
 
 ## Notes
 
-- **All API endpoints are defined in `SwiftCodeController`.**
-- **Initial data** is loaded from `data.xlsx` — only if the database is empty.
-- The **main database** is persistent and saved to `data/db/swiftcode.mv.db`.
+- All API endpoints are defined in `SwiftCodeController`.
+- Initial data is loaded from `data.xlsx` — only if the database is empty.
+- The main database is persistent and saved to `data/db/swiftcode.mv.db`.
 - Tests use a separate persistent H2 DB at `data/test/testdb.mv.db`.
 
 ---

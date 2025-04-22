@@ -24,7 +24,7 @@ public class SwiftCodeService {
     public Object getSwiftCodeDetails(String swiftCode) {
         dataValidator.validateSwiftCode(swiftCode);
         Swift swift = swiftRepository.findBySwiftCode(swiftCode)
-                .orElseThrow(() -> new IllegalArgumentException("No records for provided swiftCode"));
+                .orElseThrow(() -> new IllegalArgumentException("No records for provided swiftCode: " + swiftCode));
         if (!swift.isHeadquarter()) return mapper.mapToBranchSwiftCodeDTO(swift);
         List<Swift> branches = swiftRepository.findAllByBaseSwiftCodeAndIsHeadquarterFalse(swift.getBaseSwiftCode());
         return mapper.mapToHeadquarterSwiftCodeDTO(swift, branches);
@@ -53,7 +53,7 @@ public class SwiftCodeService {
     public void deleteSwiftCode(String swiftCode) throws IllegalArgumentException {
         dataValidator.validateSwiftCode(swiftCode);
         Swift swift = swiftRepository.findBySwiftCode(swiftCode)
-                .orElseThrow(() -> new IllegalArgumentException("No SWIFT code found with the provided code: " + swiftCode));
+                .orElseThrow(() -> new IllegalArgumentException("No records for provided swiftCode: " + swiftCode));
         swiftRepository.delete(swift);
     }
 }

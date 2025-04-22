@@ -34,7 +34,7 @@ public class SwiftCodeController {
             return ResponseEntity.ok(swiftCodeService.getSwiftCodeDetails(swiftCode));
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
 
@@ -45,7 +45,7 @@ public class SwiftCodeController {
             return ResponseEntity.ok(swiftCodeService.getSwiftCodesByCountry(countryISO2));
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
 
@@ -56,7 +56,7 @@ public class SwiftCodeController {
             swiftCodeService.addSwiftCode(requestDTO);
             return ResponseEntity.ok().body(Map.of("message", "SWIFT code added successfully"));
         } catch (IllegalArgumentException e) {
-            LOGGER.error("Error adding swift code: {}", e.getMessage());
+            LOGGER.error("Error adding SWIFT code: {}", e.getMessage());
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
@@ -68,7 +68,7 @@ public class SwiftCodeController {
             swiftCodeService.deleteSwiftCode(swiftCode);
             return ResponseEntity.ok().body(Map.of("message", "SWIFT code deleted successfully"));
         } catch (IllegalArgumentException e) {
-            LOGGER.error("Error deleting swift code: {}", e.getMessage());
+            LOGGER.error("Error deleting SWIFT code: {}", e.getMessage());
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }

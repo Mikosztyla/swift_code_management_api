@@ -32,14 +32,8 @@ class SwiftCodeServiceTest {
     private static final String BANK_NAME = "Bank";
     private static final String ADDRESS = "Address";
     private static final String SWIFT_CODE_EXISTS_MSG = "SWIFT code already exists: ";
-    private static final String SWIFT_CODE_CREATED_MSG = "SWIFT code added successfully";
-    private static final String SWIFT_CODE_DELETED_MSG = "SWIFT code deleted successfully";
-    private static final String INVALID_SWIFT_CODE_FORMAT_MSG = "Invalid swiftCode format. Expected 11 uppercase letters/numbers";
-    private static final String INVALID_ISO2_CODE_FORMAT_MSG = "Invalid country ISO2 code. Expected 2 uppercase letters";
-    private static final String SWIFT_CODE_NOT_FOUND_MSG = "No records for provided swiftCode";
+    private static final String SWIFT_CODE_NOT_FOUND_MSG = "No records for provided swiftCode: ";
     private static final String COUNTRY_NOT_FOUND_MSG = "No country found for code: ";
-    private static final String SWIFT_CODE_NOT_FOUND = "No SWIFT code found with the provided code: ";
-    private static final String SWIFT_CODE_MISSING_MSG = "SwiftCode must not be null or empty";
 
     private final SwiftRepository swiftRepository = mock(SwiftRepository.class);
     private final CountryRepository countryRepository = mock(CountryRepository.class);
@@ -92,7 +86,7 @@ class SwiftCodeServiceTest {
         when(swiftRepository.findBySwiftCode(SWIFT_CODE)).thenReturn(Optional.empty());
         //when //then
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> service.getSwiftCodeDetails(SWIFT_CODE));
-        assertEquals(SWIFT_CODE_NOT_FOUND_MSG, ex.getMessage());
+        assertEquals(SWIFT_CODE_NOT_FOUND_MSG + SWIFT_CODE, ex.getMessage());
     }
 
     @Test
@@ -151,7 +145,7 @@ class SwiftCodeServiceTest {
         when(swiftRepository.findBySwiftCode(SWIFT_CODE)).thenReturn(Optional.of(swift));
         //when //then
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> service.addSwiftCode(dto));
-        assertEquals("SWIFT code already exists: " + SWIFT_CODE, ex.getMessage());
+        assertEquals(SWIFT_CODE_EXISTS_MSG + SWIFT_CODE, ex.getMessage());
     }
 
     @Test
@@ -162,7 +156,7 @@ class SwiftCodeServiceTest {
         when(countryRepository.findByIso2(COUNTRY_CODE)).thenReturn(Optional.empty());
         //when //then
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> service.addSwiftCode(dto));
-        assertEquals("No country found for code: " + COUNTRY_CODE, ex.getMessage());
+        assertEquals(COUNTRY_NOT_FOUND_MSG + COUNTRY_CODE, ex.getMessage());
     }
 
     @Test
@@ -181,6 +175,6 @@ class SwiftCodeServiceTest {
         when(swiftRepository.findBySwiftCode(SWIFT_CODE)).thenReturn(Optional.empty());
         //when //then
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> service.deleteSwiftCode(SWIFT_CODE));
-        assertEquals("No SWIFT code found with the provided code: " + SWIFT_CODE, ex.getMessage());
+        assertEquals(SWIFT_CODE_NOT_FOUND_MSG + SWIFT_CODE, ex.getMessage());
     }
 }
