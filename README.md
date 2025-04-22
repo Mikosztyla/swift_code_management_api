@@ -51,7 +51,7 @@ This project is developed under the following assumptions and design choices:
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/your-username/swiftcode.git
+git clone https://github.com/Mikosztyla/swift_code_management_api.git
 cd swiftcode
 ```
 
