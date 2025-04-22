@@ -1,4 +1,4 @@
-# 💱 Swift Code Management API
+# Swift Code Management API
 
 A Spring Boot application for managing SWIFT codes by country. It provides RESTful endpoints for querying, creating, and deleting SWIFT codes, as well as built-in API documentation and a persistent local H2 database.
 
