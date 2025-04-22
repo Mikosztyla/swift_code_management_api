@@ -52,7 +52,7 @@ This project is developed under the following assumptions and design choices:
 
 ```bash
 git clone https://github.com/Mikosztyla/swift_code_management_api.git
-cd swiftcode
+cd swift_code_management_api
 ```
 
 2. **Run the application:**
